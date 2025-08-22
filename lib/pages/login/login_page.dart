@@ -17,9 +17,13 @@ class LoginPage extends GetView<AuthController> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             TextField(
+              style: TextStyle(color: Colors.white),
               controller: nameController,
               decoration: InputDecoration(
-                labelText: 'İsminizi Girin',
+                label: Text(
+                  'İsminizi Girin',
+                  style: TextStyle(color: Colors.white),
+                ),
                 border: OutlineInputBorder(),
               ),
             ),
@@ -28,7 +32,7 @@ class LoginPage extends GetView<AuthController> {
               onPressed: () {
                 controller.login(nameController.text);
               },
-              child: Text('Giriş Yap'),
+              child: Text('Giriş Yap', style: TextStyle(color: Colors.black)),
             ),
           ],
         ),

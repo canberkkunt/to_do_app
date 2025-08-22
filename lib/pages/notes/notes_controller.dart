@@ -4,15 +4,60 @@ import 'package:to_do_app/pages/home/home_controller.dart';
 import 'package:to_do_app/pages/notes/models/note_model.dart';
 
 class NotesController extends GetxController {
+  // --- Değişkenler ---
   var notes = <NoteModel>[].obs;
-  int _nextId = 0;
+
   final box = GetStorage();
+  String activeUser =
+      ''; // Hangi kullanıcının notlarını yöneteceğimizi bilmek için.
+  int _nextId = 0; // Yeni notlar için ID sayacı.
 
   @override
   void onInit() {
     super.onInit();
-    loadNotes();
+    // onInit artık boş. Veri yükleme, login sonrası AuthController tarafından tetiklenecek.
+    print("NotesController oluşturuldu, kullanıcı girişi bekleniyor.");
   }
+
+  /// AuthController tarafından çağrılan, kullanıcıya özel notları yükleyen ana metot.
+  void loadUserSpecificData(String username) {
+    activeUser = username;
+    print("NotesController: '$activeUser' için notlar yükleniyor...");
+
+    // Önceki kullanıcıdan kalabilecek notları temizle
+    notes.clear();
+
+    // Kullanıcıya özel notları yükle
+    List? savedNotes = box.read<List>('${activeUser}_notes');
+    if (savedNotes != null) {
+      notes.value = savedNotes
+          .map(
+            (noteJson) => NoteModel.fromJson(noteJson as Map<String, dynamic>),
+          )
+          .toList();
+      // En büyük ID'yi bul ve bir sonraki ID'yi ayarla (en güvenli yöntem)
+      _nextId = notes.isNotEmpty
+          ? notes.map((n) => n.id).reduce((a, b) => a > b ? a : b) + 1
+          : 0;
+    } else {
+      _nextId = 0; // Eğer kullanıcı için hiç kayıtlı not yoksa ID'yi sıfırla.
+    }
+
+    print(
+      "'$activeUser' için not yükleme tamamlandı. Not sayısı: ${notes.length}",
+    );
+  }
+
+  // --- KAYDETME METODU (Artık kullanıcıya özel) ---
+  void saveNotes() {
+    if (activeUser.isEmpty) return; // Kullanıcı yoksa kaydetme
+    box.write(
+      '${activeUser}_notes',
+      notes.map((note) => note.toJson()).toList(),
+    );
+  }
+
+  // --- VERİ DEĞİŞTİRME METOTLARI (Artık hepsi saveNotes() çağırıyor) ---
 
   void addNote(String content) {
     if (content.trim().isEmpty) {
@@ -36,20 +81,10 @@ class NotesController extends GetxController {
 
   void pinNote(int noteId) {
     try {
-      // 1. ADIM: "Alıcı"yı bul.
-      // GetX'in hafızasından HomeController'ın o anki çalışan örneğini buluyoruz.
       final homeController = Get.find<HomeController>();
-
-      // 2. ADIM: Gönderilecek "Paket"i hazırla.
-      // Kendi 'notes' listemizden, verilen ID'ye sahip notu buluyoruz.
       final NoteModel noteToPin = notes.firstWhere((note) => note.id == noteId);
-
-      // 3. ADIM: "Paket"i gönder.
-      // homeController'daki 'pinNewNote' fonksiyonunu,
-      // bulduğumuz notun içeriğiyle (.content) çağırıyoruz.
       homeController.pinNewNote(noteToPin.content);
 
-      // 4. ADIM: Kullanıcıya geri bildirim ver.
       Get.snackbar(
         "Başarılı",
         "Not ana sayfaya sabitlendi!",
@@ -57,7 +92,6 @@ class NotesController extends GetxController {
         duration: const Duration(seconds: 2),
       );
     } catch (e) {
-      // Eğer bir hata olursa (örn: not bulunamazsa), kullanıcıya bilgi ver.
       Get.snackbar(
         "Hata",
         "Not sabitlenirken bir sorun oluştu.",
@@ -67,18 +101,9 @@ class NotesController extends GetxController {
     }
   }
 
-  void loadNotes() {
-    List? savedNotes = box.read<List>('notes');
-    if (savedNotes != null) {
-      notes.value = savedNotes
-          .map((noteJson) => NoteModel.fromJson(noteJson))
-          .toList();
-      _nextId = notes.length;
-    }
-    print('Notlar Başarıyla yüklendi.');
-  }
-
-  void saveNotes() {
-    box.write('notes', notes.map((note) => note.toJson()).toList());
+  void clearUserData() {
+    notes.clear();
+    activeUser = '';
+    _nextId = 0;
   }
 }

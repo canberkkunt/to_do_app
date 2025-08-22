@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:to_do_app/auth/auth_controller.dart';
 import 'package:to_do_app/pages/calendar/calendar_page.dart';
 import 'package:to_do_app/pages/home/home_controller.dart';
 import 'package:to_do_app/pages/home/widget/task_list_widget.dart';
@@ -16,6 +17,15 @@ class HomePage extends GetView<HomeController> {
         title: const Text('TO DO APP', style: TextStyle(color: Colors.white)),
         centerTitle: true,
         backgroundColor: Colors.grey.shade900,
+        actions: [
+          IconButton(
+            onPressed: () {
+              final AuthController authController = Get.find<AuthController>();
+              authController.logOut();
+            },
+            icon: Icon(Icons.logout, color: Colors.white),
+          ),
+        ],
       ),
       backgroundColor: Colors.grey.shade900,
 

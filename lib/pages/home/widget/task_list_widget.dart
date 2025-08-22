@@ -133,7 +133,7 @@ class TaskListWidget extends StatelessWidget {
                                   color: Colors.redAccent,
                                 ),
                                 onPressed: () {
-                                  controller.unPinNote(noteContent);
+                                  controller.unpinNote(noteContent);
                                 },
                               ),
                             ),
