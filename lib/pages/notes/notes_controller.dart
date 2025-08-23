@@ -64,7 +64,7 @@ class NotesController extends GetxController {
       Get.snackbar(
         'Hata',
         'Not içeriği boş olamaz',
-        snackPosition: SnackPosition.BOTTOM,
+        snackPosition: SnackPosition.TOP,
       );
       return;
     }
@@ -88,14 +88,14 @@ class NotesController extends GetxController {
       Get.snackbar(
         "Başarılı",
         "Not ana sayfaya sabitlendi!",
-        snackPosition: SnackPosition.BOTTOM,
+        snackPosition: SnackPosition.TOP,
         duration: const Duration(seconds: 2),
       );
     } catch (e) {
       Get.snackbar(
         "Hata",
         "Not sabitlenirken bir sorun oluştu.",
-        snackPosition: SnackPosition.BOTTOM,
+        snackPosition: SnackPosition.TOP,
       );
       print("pinNote hatası: $e");
     }

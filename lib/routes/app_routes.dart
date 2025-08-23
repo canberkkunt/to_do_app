@@ -1,4 +1,5 @@
 import 'package:get/get_navigation/src/routes/get_route.dart';
+import 'package:to_do_app/pages/calendar/calendar_bindings.dart';
 import 'package:to_do_app/pages/calendar/calendar_page.dart';
 import 'package:to_do_app/pages/home/home_bindings.dart';
 import 'package:to_do_app/pages/home/home_page.dart';
@@ -19,7 +20,11 @@ abstract class AppRoutes {
     GetPage(name: '/home', page: () => HomePage(), binding: HomeBindings()),
     GetPage(name: '/login', page: () => LoginPage(), binding: LoginBindings()),
     GetPage(name: '/settings', page: () => SettingsPage()),
-    GetPage(name: '/calendar', page: () => CalendarPage()),
+    GetPage(
+      name: '/calendar',
+      page: () => CalendarPage(),
+      binding: CalendarBindings(),
+    ),
     GetPage(name: '/notes', page: () => NotesPage(), binding: NotesBinding()),
   ];
 }

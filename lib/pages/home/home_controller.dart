@@ -17,6 +17,7 @@ class HomeController extends GetxController {
   @override
   void onInit() {
     super.onInit();
+
     // onInit artık boş. Veri yükleme, login sonrası AuthController tarafından tetiklenecek.
     print("HomeController oluşturuldu, kullanıcı girişi bekleniyor.");
   }
@@ -74,15 +75,33 @@ class HomeController extends GetxController {
 
   // --- VERİ DEĞİŞTİRME METOTLARI (Bunlarda değişiklik yok, hepsi doğru çalışıyor) ---
 
-  void addTask(String title) {
+  bool addTask(String title, {DateTime? date}) {
     if (title.trim().isEmpty) {
-      Get.snackbar('Hata', 'Görev boş bırakılmaz');
-      return;
+      /* Get.snackbar('Hata', 'Görev boş bırakılmaz'); */
+      return false;
     }
-    final newTask = TaskModel(id: _nextId, title: title.trim());
+    final isDuplicate = tasks.any(
+      (task) => task.title.toLowerCase() == title.trim().toLowerCase(),
+    );
+    if (isDuplicate) {
+      // Evet, varmış. Hata mesajı göster ve dur.
+      Get.snackbar(
+        'Uyarı',
+        'Bu görev zaten mevcut.',
+        snackPosition: SnackPosition.TOP,
+      );
+      return false;
+    }
+
+    final newTask = TaskModel(
+      id: _nextId,
+      title: title.trim(),
+      date: date ?? DateTime.now(),
+    );
     tasks.add(newTask);
     _nextId++;
     saveTasks();
+    return true;
   }
 
   void toggleTaskStatus(int id) {
@@ -98,7 +117,11 @@ class HomeController extends GetxController {
 
   void removeTask(int id) {
     tasks.removeWhere((task) => task.id == id);
-    Get.snackbar('Başarılı', 'Görev başarıyla silindi');
+    Get.snackbar(
+      'Başarılı',
+      'Görev başarıyla silindi',
+      snackPosition: SnackPosition.TOP,
+    );
     saveTasks();
   }
 
@@ -107,13 +130,21 @@ class HomeController extends GetxController {
       pinnedNotes.add(noteContent);
       savePinnedNotes();
     } else {
-      Get.snackbar('HATA', 'Aynı notu sabitleyemezsiniz');
+      Get.snackbar(
+        'HATA',
+        'Aynı notu sabitleyemezsiniz',
+        snackPosition: SnackPosition.TOP,
+      );
     }
   }
 
   void unpinNote(String noteContent) {
     pinnedNotes.remove(noteContent);
-    Get.snackbar('Başarılı', 'Sabitlenme kaldırıldı');
+    Get.snackbar(
+      'Başarılı',
+      'Sabitlenme kaldırıldı',
+      snackPosition: SnackPosition.TOP,
+    );
     savePinnedNotes();
   }
 

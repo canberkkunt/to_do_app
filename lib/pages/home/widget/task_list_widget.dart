@@ -58,7 +58,25 @@ class TaskListWidget extends StatelessWidget {
                 itemCount: controller.tasks.length,
                 itemBuilder: (context, index) {
                   final task = controller.tasks[index];
+                  final now = DateTime.now();
+                  final today = DateTime(now.year, now.month, now.day);
+                  final taskDate = DateTime(
+                    task.date.year,
+                    task.date.month,
+                    task.date.day,
+                  );
+                  final bool isFutureTask = taskDate.isAfter(today);
                   return ListTile(
+                    subtitle: isFutureTask
+                        ? Text(
+                            'Tarih: ${task.date.day}/${task.date.month}/${task.date.year}',
+                            style: TextStyle(
+                              color: Colors.grey.shade400,
+                              fontSize: 12,
+                            ),
+                          )
+                        : null,
+
                     leading: Checkbox(
                       value: task.isDone,
                       onChanged: (value) {

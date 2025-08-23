@@ -120,8 +120,19 @@ class HomePage extends GetView<HomeController> {
           ElevatedButton(
             onPressed: () {
               String taskTitle = textEditingController.text;
-              controller.addTask(taskTitle);
+              final bool isSuccess = controller.addTask(taskTitle);
               Get.back();
+              if (!isSuccess) {
+                // Eğer işlem başarısız olduysa (addTask 'false' döndürdüyse),
+                // kullanıcıya nedenini söyleyen bir uyarı göster.
+                Get.snackbar(
+                  'Başarısız',
+                  'Görev eklenemedi. Başlık boş veya bu görev zaten mevcut.',
+                  snackPosition: SnackPosition.TOP,
+                  backgroundColor: Colors.red,
+                  colorText: Colors.white,
+                );
+              }
             },
             child: Text('Ekle'),
           ),
