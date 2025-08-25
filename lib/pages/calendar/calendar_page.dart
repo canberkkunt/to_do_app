@@ -19,7 +19,7 @@ class CalendarPage extends GetView<CalendarController> {
         actions: [
           IconButton(
             onPressed: () {
-              _showAddEventDialog(controller);
+              _showAddEventDialog(controller, context);
             },
             icon: Icon(Icons.add, color: Colors.white),
           ),
@@ -156,18 +156,26 @@ class CalendarPage extends GetView<CalendarController> {
     );
   }
 
-  void _showAddEventDialog(CalendarController controller) {
+  void _showAddEventDialog(
+    CalendarController controller,
+    BuildContext context,
+  ) {
     final TextEditingController textEditingController = TextEditingController();
     final HomeController homeController = Get.find<HomeController>();
     Get.dialog(
       AlertDialog(
         title: Text('Yeni Plan Ekle'),
-        content: TextField(
-          controller: textEditingController,
-          autofocus: true,
-          decoration: InputDecoration(
-            hintText: 'Planınızı buraya yazın...',
-            border: OutlineInputBorder(),
+        content: Container(
+          width: MediaQuery.of(context).size.width,
+          height: MediaQuery.of(context).size.height / 5,
+          child: TextField(
+            maxLines: 5,
+            controller: textEditingController,
+            autofocus: true,
+            decoration: InputDecoration(
+              hintText: 'Planınızı buraya yazın...',
+              border: OutlineInputBorder(),
+            ),
           ),
         ),
         actions: [

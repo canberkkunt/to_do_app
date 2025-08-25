@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:to_do_app/auth/auth_controller.dart';
 import 'package:to_do_app/pages/calendar/calendar_page.dart';
 import 'package:to_do_app/pages/home/home_controller.dart';
@@ -14,7 +15,15 @@ class HomePage extends GetView<HomeController> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('TO DO APP', style: TextStyle(color: Colors.white)),
+        title: Text(
+          'Make Your Dream',
+          style: GoogleFonts.italiana(
+            color: Colors.white,
+            fontSize: 28.0,
+            fontStyle: FontStyle.italic,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
         centerTitle: true,
         backgroundColor: Colors.grey.shade900,
         actions: [
@@ -62,7 +71,7 @@ class HomePage extends GetView<HomeController> {
                 onPressed: () => controller.changeIndex(0),
                 icon: const Icon(Icons.home),
                 color: controller.selectedIndex.value == 0
-                    ? Colors.blue
+                    ? Colors.redAccent
                     : Colors.grey,
               ),
               // İkon 1
@@ -70,7 +79,7 @@ class HomePage extends GetView<HomeController> {
                 onPressed: () => controller.changeIndex(1),
                 icon: const Icon(Icons.calendar_month),
                 color: controller.selectedIndex.value == 1
-                    ? Colors.blue
+                    ? Colors.redAccent
                     : Colors.grey,
               ),
               const SizedBox(width: 40.0), // Buton için boşluk
@@ -79,7 +88,7 @@ class HomePage extends GetView<HomeController> {
                 onPressed: () => controller.changeIndex(2),
                 icon: const Icon(Icons.note_alt_outlined),
                 color: controller.selectedIndex.value == 2
-                    ? Colors.blue
+                    ? Colors.redAccent
                     : Colors.grey,
               ),
               // İkon 3
@@ -87,7 +96,7 @@ class HomePage extends GetView<HomeController> {
                 onPressed: () => controller.changeIndex(3),
                 icon: const Icon(Icons.settings),
                 color: controller.selectedIndex.value == 3
-                    ? Colors.blue
+                    ? Colors.redAccent
                     : Colors.grey,
               ),
             ],
@@ -102,12 +111,17 @@ class HomePage extends GetView<HomeController> {
     return Get.dialog(
       AlertDialog(
         title: Text('Görevi Gir!'),
-        content: TextField(
-          controller: textEditingController,
-          autofocus: true,
-          decoration: InputDecoration(
-            hintText: 'Görevinizi Buraya Giriniz...',
-            border: OutlineInputBorder(),
+        content: Container(
+          width: MediaQuery.of(context).size.width,
+          height: MediaQuery.of(context).size.height / 5,
+          child: TextField(
+            maxLines: 5,
+            controller: textEditingController,
+            autofocus: true,
+            decoration: InputDecoration(
+              hintText: 'Görevinizi Buraya Giriniz...',
+              border: OutlineInputBorder(),
+            ),
           ),
         ),
         actions: [

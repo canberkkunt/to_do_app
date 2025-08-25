@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:to_do_app/pages/notes/notes_controller.dart';
 
 class NotesPage extends GetView<NotesController> {
@@ -16,13 +17,21 @@ class NotesPage extends GetView<NotesController> {
         child: Column(
           children: [
             Card(
+              color: Colors.grey.shade800,
               child: Padding(
-                padding: EdgeInsets.all(8.0),
+                padding: EdgeInsets.all(16.0),
                 child: TextField(
                   controller: textEditingController,
                   maxLines: 5,
                   decoration: InputDecoration(
-                    hintText: 'Hayallerinizi yazın!',
+                    hint: Text(
+                      'Hayallerinizi Yazın...',
+                      style: GoogleFonts.abel(
+                        color: Colors.white,
+                        fontSize: 18.0,
+                        fontStyle: FontStyle.italic,
+                      ),
+                    ),
                     border: InputBorder.none,
                   ),
                 ),
@@ -30,11 +39,14 @@ class NotesPage extends GetView<NotesController> {
             ),
             SizedBox(height: 10),
             ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.grey.shade800,
+              ),
               onPressed: () {
                 controller.addNote(textEditingController.text);
                 textEditingController.clear();
               },
-              child: Text('Kaydet'),
+              child: Text('Kaydet', style: TextStyle(color: Colors.white)),
             ),
             SizedBox(height: 20),
             Divider(),
@@ -45,10 +57,13 @@ class NotesPage extends GetView<NotesController> {
                   itemBuilder: (context, index) {
                     final note = controller.notes[index];
                     return Card(
+                      color: Colors.grey.shade800,
                       margin: EdgeInsets.symmetric(vertical: 5.0),
                       child: ListTile(
-                        title: Text(note.content),
-
+                        title: Text(
+                          note.content,
+                          style: TextStyle(color: Colors.white),
+                        ),
                         trailing: Row(
                           mainAxisSize: MainAxisSize.min,
                           children: [
@@ -56,7 +71,7 @@ class NotesPage extends GetView<NotesController> {
                               onPressed: () {
                                 controller.pinNote(note.id);
                               },
-                              icon: Icon(Icons.push_pin, color: Colors.grey),
+                              icon: Icon(Icons.push_pin, color: Colors.white60),
                             ),
                             IconButton(
                               onPressed: () {

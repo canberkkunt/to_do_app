@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:to_do_app/auth/auth_controller.dart';
 import 'package:to_do_app/pages/home/home_controller.dart';
 
@@ -29,9 +30,10 @@ class TaskListWidget extends StatelessWidget {
               child: Obx(
                 () => Text(
                   '${authController.greeting.value}, ${authController.userName.value}',
-                  style: const TextStyle(
+                  style: GoogleFonts.abel(
                     color: Colors.white,
-                    fontSize: 24,
+                    fontSize: 24.0,
+                    fontStyle: FontStyle.italic,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
@@ -67,6 +69,7 @@ class TaskListWidget extends StatelessWidget {
                   );
                   final bool isFutureTask = taskDate.isAfter(today);
                   return ListTile(
+                    tileColor: task.isDone ? Colors.grey.shade800 : null,
                     subtitle: isFutureTask
                         ? Text(
                             'Tarih: ${task.date.day}/${task.date.month}/${task.date.year}',
@@ -78,6 +81,7 @@ class TaskListWidget extends StatelessWidget {
                         : null,
 
                     leading: Checkbox(
+                      activeColor: Colors.redAccent,
                       value: task.isDone,
                       onChanged: (value) {
                         controller.toggleTaskStatus(task.id);
@@ -86,10 +90,9 @@ class TaskListWidget extends StatelessWidget {
                     title: Text(
                       task.title,
                       style: TextStyle(
-                        color: Colors.white,
-                        decoration: task.isDone
-                            ? TextDecoration.lineThrough
-                            : TextDecoration.none,
+                        color: task.isDone
+                            ? Colors.grey.shade500
+                            : Colors.white,
                       ),
                     ),
                     trailing: IconButton(
