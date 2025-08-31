@@ -11,7 +11,6 @@ class NotesPage extends GetView<NotesController> {
   Widget build(BuildContext context) {
     final TextEditingController textEditingController = TextEditingController();
     return Scaffold(
-      backgroundColor: Colors.grey.shade900,
       body: Padding(
         padding: EdgeInsets.all(16.0),
         child: Column(

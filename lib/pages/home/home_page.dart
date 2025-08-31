@@ -6,6 +6,7 @@ import 'package:to_do_app/pages/calendar/calendar_page.dart';
 import 'package:to_do_app/pages/home/home_controller.dart';
 import 'package:to_do_app/pages/home/widget/task_list_widget.dart';
 import 'package:to_do_app/pages/notes/notes_page.dart';
+import 'package:to_do_app/pages/pomodoro/pomodoro_page.dart';
 import 'package:to_do_app/pages/settings/settings_page.dart';
 
 class HomePage extends GetView<HomeController> {
@@ -13,30 +14,28 @@ class HomePage extends GetView<HomeController> {
 
   @override
   Widget build(BuildContext context) {
+    final appBarTextStyle = Theme.of(context).appBarTheme.titleTextStyle;
     return Scaffold(
       appBar: AppBar(
         title: Text(
           'Make Your Dream',
           style: GoogleFonts.italiana(
-            color: Colors.white,
+            textStyle: appBarTextStyle,
             fontSize: 28.0,
             fontStyle: FontStyle.italic,
             fontWeight: FontWeight.bold,
           ),
         ),
         centerTitle: true,
-        backgroundColor: Colors.grey.shade900,
         actions: [
           IconButton(
             onPressed: () {
-              final AuthController authController = Get.find<AuthController>();
-              authController.logOut();
+              Get.toNamed('/settings');
             },
-            icon: Icon(Icons.logout, color: Colors.white),
+            icon: Icon(Icons.settings),
           ),
         ],
       ),
-      backgroundColor: Colors.grey.shade900,
 
       // DÜZELTME 1: Body artık seçili indekse göre dinamik olarak değişiyor.
       body: Obx(
@@ -46,7 +45,7 @@ class HomePage extends GetView<HomeController> {
             TaskListWidget(),
             CalendarPage(),
             NotesPage(),
-            SettingsPage(),
+            PomodoroPage(),
           ],
         ),
       ),
@@ -57,7 +56,7 @@ class HomePage extends GetView<HomeController> {
         onPressed: () {
           _newTaskWindow(context, controller);
         },
-        child: const Icon(Icons.add),
+        child: const Icon(Icons.add, color: Colors.black),
       ),
       bottomNavigationBar: BottomAppBar(
         shape: const CircularNotchedRectangle(),
@@ -94,7 +93,7 @@ class HomePage extends GetView<HomeController> {
               // İkon 3
               IconButton(
                 onPressed: () => controller.changeIndex(3),
-                icon: const Icon(Icons.settings),
+                icon: const Icon(Icons.add_alarm),
                 color: controller.selectedIndex.value == 3
                     ? Colors.redAccent
                     : Colors.grey,
@@ -144,7 +143,6 @@ class HomePage extends GetView<HomeController> {
                   'Görev eklenemedi. Başlık boş veya bu görev zaten mevcut.',
                   snackPosition: SnackPosition.TOP,
                   backgroundColor: Colors.red,
-                  colorText: Colors.white,
                 );
               }
             },

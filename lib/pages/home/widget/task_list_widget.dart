@@ -30,11 +30,10 @@ class TaskListWidget extends StatelessWidget {
               child: Obx(
                 () => Text(
                   '${authController.greeting.value}, ${authController.userName.value}',
-                  style: GoogleFonts.abel(
-                    color: Colors.white,
-                    fontSize: 24.0,
+                  style: GoogleFonts.montserrat(
+                    fontSize: 20.0,
                     fontStyle: FontStyle.italic,
-                    fontWeight: FontWeight.bold,
+                    fontWeight: FontWeight.normal,
                   ),
                 ),
               ),
@@ -44,10 +43,7 @@ class TaskListWidget extends StatelessWidget {
             // --- 2. BÖLÜM: GÖREVLER ---
             const Padding(
               padding: EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 8.0),
-              child: Text(
-                "Görevlerin",
-                style: TextStyle(color: Colors.white70, fontSize: 18),
-              ),
+              child: Text("Görevlerin", style: TextStyle(fontSize: 18)),
             ),
             Obx(
               () => ListView.builder(
@@ -73,10 +69,7 @@ class TaskListWidget extends StatelessWidget {
                     subtitle: isFutureTask
                         ? Text(
                             'Tarih: ${task.date.day}/${task.date.month}/${task.date.year}',
-                            style: TextStyle(
-                              color: Colors.grey.shade400,
-                              fontSize: 12,
-                            ),
+                            style: TextStyle(fontSize: 12),
                           )
                         : null,
 
@@ -87,14 +80,7 @@ class TaskListWidget extends StatelessWidget {
                         controller.toggleTaskStatus(task.id);
                       },
                     ),
-                    title: Text(
-                      task.title,
-                      style: TextStyle(
-                        color: task.isDone
-                            ? Colors.grey.shade500
-                            : Colors.white,
-                      ),
-                    ),
+                    title: Text(task.title),
                     trailing: IconButton(
                       onPressed: () {
                         controller.removeTask(task.id);
@@ -111,10 +97,7 @@ class TaskListWidget extends StatelessWidget {
             // --- 3. BÖLÜM: SABİTLENMİŞ NOTLAR ---
             const Padding(
               padding: EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 8.0),
-              child: Text(
-                "Sabitlenmiş Notlar",
-                style: TextStyle(color: Colors.white70, fontSize: 18),
-              ),
+              child: Text("Sabitlenmiş Notlar", style: TextStyle(fontSize: 18)),
             ),
             Obx(
               () => controller.pinnedNotes.isEmpty
@@ -124,10 +107,7 @@ class TaskListWidget extends StatelessWidget {
                         vertical: 24.0,
                       ),
                       child: Center(
-                        child: Text(
-                          'Henüz sabitlenmiş bir not yok.',
-                          style: TextStyle(color: Colors.white54),
-                        ),
+                        child: Text('Henüz sabitlenmiş bir not yok.'),
                       ),
                     )
                   : Column(

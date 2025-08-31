@@ -13,19 +13,17 @@ class CalendarPage extends GetView<CalendarController> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: Text('Takvim', style: TextStyle(color: Colors.white)),
-        backgroundColor: Colors.transparent,
+        title: Text('Takvim'),
         elevation: 0,
         actions: [
           IconButton(
             onPressed: () {
               _showAddEventDialog(controller, context);
             },
-            icon: Icon(Icons.add, color: Colors.white),
+            icon: Icon(Icons.add),
           ),
         ],
       ),
-      backgroundColor: Colors.grey.shade900,
       body: Column(
         children: [
           Obx(
@@ -51,10 +49,7 @@ class CalendarPage extends GetView<CalendarController> {
                               ),
                               child: Text(
                                 '${events.length}',
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 12,
-                                ),
+                                style: TextStyle(fontSize: 12),
                               ),
                             ),
                           );
@@ -69,21 +64,11 @@ class CalendarPage extends GetView<CalendarController> {
                     headerStyle: HeaderStyle(
                       formatButtonVisible: false,
                       titleCentered: true,
-                      titleTextStyle: TextStyle(
-                        color: Colors.white,
-                        fontSize: 18.0,
-                      ),
-                      leftChevronIcon: Icon(
-                        Icons.chevron_left,
-                        color: Colors.white,
-                      ),
-                      rightChevronIcon: Icon(
-                        Icons.chevron_right,
-                        color: Colors.white,
-                      ),
+                      titleTextStyle: TextStyle(fontSize: 18.0),
+                      leftChevronIcon: Icon(Icons.chevron_left),
+                      rightChevronIcon: Icon(Icons.chevron_right),
                     ),
                     calendarStyle: CalendarStyle(
-                      defaultTextStyle: TextStyle(color: Colors.white),
                       weekendTextStyle: TextStyle(color: Colors.redAccent),
                       todayDecoration: BoxDecoration(
                         color: Colors.blueAccent.withOpacity(0.5),
@@ -107,22 +92,13 @@ class CalendarPage extends GetView<CalendarController> {
             padding: EdgeInsets.symmetric(vertical: 8.0),
             child: Text(
               'Bu Günün Planları',
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-              ),
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
           ),
           Expanded(
             child: Obx(
               () => controller.selectedEvents.isEmpty
-                  ? Center(
-                      child: Text(
-                        'Bugün için planlamış görev yok',
-                        style: TextStyle(color: Colors.white54),
-                      ),
-                    )
+                  ? Center(child: Text('Bugün için planlamış görev yok'))
                   : ListView.builder(
                       itemCount: controller.selectedEvents.length,
                       itemBuilder: (context, index) {
@@ -135,10 +111,7 @@ class CalendarPage extends GetView<CalendarController> {
                           ),
                           color: Colors.grey.shade800,
                           child: ListTile(
-                            title: Text(
-                              event.title,
-                              style: TextStyle(color: Colors.white),
-                            ),
+                            title: Text(event.title),
                             leading: Icon(
                               event.isDone
                                   ? Icons.check_box

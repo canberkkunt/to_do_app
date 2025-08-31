@@ -16,7 +16,6 @@ class LoginPage extends StatelessWidget {
     final TextEditingController nameController = TextEditingController();
 
     return Scaffold(
-      backgroundColor: Colors.grey.shade900,
       body: Padding(
         padding: const EdgeInsets.all(20.0),
         child: Column(
@@ -29,7 +28,6 @@ class LoginPage extends StatelessWidget {
                   'Make Your Dream',
                   speed: const Duration(milliseconds: 150),
                   textStyle: GoogleFonts.italiana(
-                    color: Colors.white,
                     fontSize: 32.0,
                     fontStyle: FontStyle.italic,
                     fontWeight: FontWeight.bold,
@@ -42,17 +40,16 @@ class LoginPage extends StatelessWidget {
             const SizedBox(height: 50.0),
 
             TextField(
-              style: const TextStyle(color: Colors.white),
               controller: nameController,
               decoration: InputDecoration(
                 // İYİLEŞTİRME: 'label' yerine 'labelText' daha iyi bir UX sunar.
                 labelText: 'İsminizi Girin',
-                labelStyle: const TextStyle(color: Colors.grey),
+                /* labelStyle: const TextStyle(color: Colors.grey), */
                 enabledBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: Colors.grey.shade600),
+                  borderSide: BorderSide(/* color: Colors.grey.shade600 */),
                 ),
                 focusedBorder: const OutlineInputBorder(
-                  borderSide: BorderSide(color: Colors.white),
+                  borderSide: BorderSide(/* color: Colors.white */),
                 ),
               ),
               onSubmitted: (value) {
@@ -63,8 +60,9 @@ class LoginPage extends StatelessWidget {
             const SizedBox(height: 20.0),
             ElevatedButton(
               style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.white, // Butonun arka plan rengi
-                foregroundColor: Colors.black, // Üzerindeki yazının rengi
+                /*  backgroundColor: Colors.white, // Butonun arka plan rengi
+                foregroundColor: Colors.black, */
+                // Üzerindeki yazının rengi
               ),
               onPressed: () {
                 // DÜZELTME 2: 'controller.login' yerine 'authController.login'

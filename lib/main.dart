@@ -3,6 +3,7 @@ import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:to_do_app/auth/initial_bindings.dart';
 import 'package:to_do_app/routes/app_routes.dart';
+import 'package:to_do_app/theme/app_themes.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -20,6 +21,7 @@ class TodoApp extends StatelessWidget {
       initialRoute: '/login',
       initialBinding: InitialBindings(),
       getPages: AppRoutes.pages,
+      theme: AppThemes.darkTheme,
     );
   }
 }

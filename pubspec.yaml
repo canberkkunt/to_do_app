@@ -40,6 +40,9 @@ dependencies:
   animated_text_kit: ^4.2.3
   google_fonts: ^6.3.0
   table_calendar: ^3.2.0
+  circular_countdown_timer: ^0.2.4
+  audioplayers: ^6.5.0
+  flutter_local_notifications: ^19.4.1
 
 dev_dependencies:
   flutter_test:
