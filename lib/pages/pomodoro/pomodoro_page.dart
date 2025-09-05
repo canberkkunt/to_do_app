@@ -70,82 +70,69 @@ class _PomodoroPageState extends State<PomodoroPage> {
             const SizedBox(height: 40),
 
             // --- 3. Kontrol Butonları ---
-            Obx(() {
-              // O anki duruma göre hangi butonların aktif olacağını belirleyelim.
-              final bool isStopped =
-                  controller.currentState.value == PomodoroState.stopped;
-              final bool isPaused =
-                  controller.currentState.value == PomodoroState.paused;
-              final bool isRunning = !isStopped && !isPaused;
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                // 1. BAŞLAT BUTONU
+                IconButton(
+                  icon: const Icon(Icons.play_arrow),
+                  iconSize: 40,
+                  color: Theme.of(context).colorScheme.primary,
+                  tooltip: 'Başlat',
+                  // Koşul kaldırıldı. Her zaman tıklanabilir.
+                  onPressed: () {
+                    // Not: Controller, zaten çalışıyorsa bir şey yapmayacak.
+                    controller.startOrResumeTimer();
+                    // Görsel sayacı başlatmayı dene. Zaten başladıysa bir şey olmaz.
+                    if (_countDownController.isStarted == true) {
+                      _countDownController.start();
+                    }
+                  },
+                ),
 
-              return Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  // 1. BAŞLAT BUTONU
-                  IconButton(
-                    icon: const Icon(Icons.play_arrow),
-                    iconSize: 40,
-                    color: Theme.of(context).colorScheme.primary,
-                    tooltip: 'Başlat',
-                    // SADECE durdurulmuş durumdaysa tıklanabilir olsun.
-                    onPressed: isStopped
-                        ? () {
-                            controller.startOrResumeTimer();
-                            _countDownController.start();
-                          }
-                        : null, // Diğer durumlarda tıklanamaz (soluk görünür).
-                  ),
+                // 2. DEVAM ET BUTONU
+                IconButton(
+                  icon: const Icon(Icons.play_circle_outline),
+                  iconSize: 40,
+                  color: Theme.of(context).colorScheme.primary,
+                  tooltip: 'Devam Et',
+                  // Koşul kaldırıldı. Her zaman tıklanabilir.
+                  onPressed: () {
+                    controller.startOrResumeTimer();
+                    _countDownController.resume();
+                  },
+                ),
 
-                  // 2. DEVAM ET BUTONU
-                  IconButton(
-                    icon: const Icon(Icons.play_circle_outline),
-                    iconSize: 40,
-                    color: Theme.of(context).colorScheme.primary,
-                    tooltip: 'Devam Et',
-                    // SADECE duraklatılmış durumdaysa tıklanabilir olsun.
-                    onPressed: isPaused
-                        ? () {
-                            controller.startOrResumeTimer();
-                            _countDownController.resume();
-                          }
-                        : null, // Diğer durumlarda tıklanamaz.
-                  ),
+                // 3. DURAKLAT BUTONU
+                IconButton(
+                  icon: const Icon(Icons.pause),
+                  iconSize: 40,
+                  color: Theme.of(context).colorScheme.primary,
+                  tooltip: 'Duraklat',
+                  // Koşul kaldırıldı. Her zaman tıklanabilir.
+                  onPressed: () {
+                    controller.pauseTimer();
+                    _countDownController.pause();
+                  },
+                ),
 
-                  // 3. DURAKLAT BUTONU
-                  IconButton(
-                    icon: const Icon(Icons.pause),
-                    iconSize: 40,
-                    color: Theme.of(context).colorScheme.primary,
-                    tooltip: 'Duraklat',
-                    // SADECE çalışır durumdaysa tıklanabilir olsun.
-                    onPressed: isRunning
-                        ? () {
-                            controller.pauseTimer();
-                            _countDownController.pause();
-                          }
-                        : null, // Diğer durumlarda tıklanamaz.
-                  ),
-
-                  // 4. SIFIRLA BUTONU
-                  IconButton(
-                    icon: const Icon(Icons.stop),
-                    iconSize: 40,
-                    color: Colors.redAccent,
-                    tooltip: 'Sıfırla',
-                    // Zamanlayıcı tamamen durdurulmuş durumda değilse her zaman tıklanabilir olsun.
-                    onPressed: !isStopped
-                        ? () {
-                            controller.resetTimer();
-                            _countDownController.restart(
-                              duration: controller.workDuration,
-                            );
-                            _countDownController.pause();
-                          }
-                        : null, // Başlangıçta (stopped) tıklanamaz.
-                  ),
-                ],
-              );
-            }),
+                // 4. SIFIRLA BUTONU
+                IconButton(
+                  icon: const Icon(Icons.stop),
+                  iconSize: 40,
+                  color: Colors.redAccent,
+                  tooltip: 'Sıfırla',
+                  // Koşul kaldırıldı. Her zaman tıklanabilir.
+                  onPressed: () {
+                    controller.resetTimer();
+                    _countDownController.restart(
+                      duration: controller.workDuration,
+                    );
+                    _countDownController.pause();
+                  },
+                ),
+              ],
+            ),
           ],
         ),
       ),

@@ -108,6 +108,39 @@ class SettingsPage extends StatelessWidget {
                   },
                   child: Text('Çıkış Yap'),
                 ),
+                SizedBox(height: 50.0),
+                Padding(
+                  padding: EdgeInsets.symmetric(
+                    horizontal: 16.0,
+                    vertical: 8.0,
+                  ),
+                  child: Text(
+                    "Dil Seçimi",
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  ),
+                ),
+                ListTile(
+                  title: Text('Türkçe'),
+                  leading: Icon(Icons.flag),
+                  onTap: () => themeController.changeLanguage('tr_TR'),
+                  trailing: themeController.currentLanguage == 'tr_TR'
+                      ? Icon(
+                          Icons.check_circle,
+                          color: Theme.of(context).colorScheme.secondary,
+                        )
+                      : null,
+                ),
+                ListTile(
+                  title: Text('English'),
+                  leading: Icon(Icons.flag_circle_outlined),
+                  onTap: () => themeController.changeLanguage('en_US'),
+                  trailing: themeController.currentLanguage == 'en_US'
+                      ? Icon(
+                          Icons.check_circle,
+                          color: Theme.of(context).colorScheme.secondary,
+                        )
+                      : null,
+                ),
               ],
             ),
           ),

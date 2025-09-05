@@ -12,6 +12,7 @@ class ThemeController extends GetxController {
   // Diske yazarken kullanacağımız anahtar. Bunu bir değişkende tutmak,
   // yazım hatası yapma riskini azaltır.
   final _key = 'theme';
+  final _languageKey = 'language';
 
   // O anki aktif temanın adını tutan reaktif değişken.
   // '.obs' sayesinde, bu değişken değiştiğinde Obx widget'ları tetiklenir.
@@ -22,6 +23,8 @@ class ThemeController extends GetxController {
   // engeller, ama değerini okumasına izin verir. Daha güvenli bir yöntemdir.
   // Örneğin, SettingsPage'de controller.currentTheme diyerek 'dark' string'ini alabiliriz.
   String get currentTheme => _currentTheme.value;
+  final RxString _currentLanguage = 'tr_TR'.obs;
+  String get currentLanguage => _currentLanguage.value;
 
   // --- 2. BAŞLANGIÇ NOKTASI (onInit) ---
 
@@ -31,6 +34,7 @@ class ThemeController extends GetxController {
     // Bu metot, ThemeController ilk oluşturulduğunda SADECE BİR KERE çalışır.
     // Tek görevi, "Uygulama yeni başladı, kayıtlı bir tema var mı bir bak" komutunu vermektir.
     loadTheme();
+    loadLanguage();
   }
 
   // --- 3. FONKSİYONLAR (GÖREVLER) ---
@@ -84,5 +88,30 @@ class ThemeController extends GetxController {
       default: // Eğer bilinmeyen bir tema adı gelirse, varsayılan olarak bunu döndür.
         return AppThemes.darkTheme;
     }
+  }
+
+  void loadLanguage() {
+    // 'language' anahtarındaki değeri oku. Bulamazsan 'tr_TR' kullan.
+    String savedLanguage = _box.read(_languageKey) ?? 'tr_TR';
+    changeLanguage(savedLanguage);
+  }
+
+  /// Görev: Dili Değiştir ve Kaydet
+  /// Bu fonksiyon, SettingsPage'deki dil butonları tarafından çağrılacak.
+  void changeLanguage(String langCode) {
+    // langCode'dan (örn: "en_US") bir Locale nesnesi oluşturuyoruz.
+    // Dil kodunu '_' karakterinden ayırıyoruz.
+    final localeParts = langCode.split('_');
+    final locale = Locale(localeParts[0], localeParts[1]);
+
+    // 1. GetX'in dil motorunu yeni dille güncelle.
+    // Bu komut, .tr olan tüm widget'ların anında değişmesini sağlar.
+    Get.updateLocale(locale);
+
+    // 2. O anki dilin ne olduğunu reaktif değişkende sakla.
+    _currentLanguage.value = langCode;
+
+    // 3. Kullanıcının seçimini bir sonraki açılış için diske kaydet.
+    _box.write(_languageKey, langCode);
   }
 }
